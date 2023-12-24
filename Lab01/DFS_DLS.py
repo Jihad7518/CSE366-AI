@@ -62,3 +62,31 @@ graph = {
   '19' : [],
   '20' : []
 }
+
+# Recursive implementation of DLS
+def dls(graph, node, goal, depth, current_depth):
+    if current_depth == depth:
+        return False  # Reached the depth limit without finding the goal
+
+    if node == goal:
+        return True  # Goal node found
+
+    for neighbor in graph[node]:
+        if dls(graph, neighbor, goal, depth, current_depth + 1):
+            return True  # Goal found in a deeper level
+
+    return False  # Goal not found within the specified depth
+
+# Create a function to perform DLS with a specified depth limit
+def depth_limited_search(graph, start, goal, depth_limit):
+    return dls(graph, start, goal, depth_limit, 0)
+
+# Perform DLS with a depth limit of 3
+start_node = '0'
+goal_node = '5'
+depth_limit = 3
+
+if depth_limited_search(graph, start_node, goal_node, depth_limit):
+    print(f"Goal '{goal_node}' found within depth limit.")
+else:
+    print(f"Goal '{goal_node}' not found within depth limit.")
