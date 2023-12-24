@@ -90,3 +90,24 @@ if depth_limited_search(graph, start_node, goal_node, depth_limit):
     print(f"Goal '{goal_node}' found within depth limit.")
 else:
     print(f"Goal '{goal_node}' not found within depth limit.")
+
+def depth_limited_search(node, goal, depth_limit):
+    if node == goal:
+        return True
+    if depth_limit <= 0:
+        return False
+
+    # Generate child nodes if the function returns a valid iterable
+    children = generate_children(node)
+    if children is not None:
+        for child in children:
+            if depth_limited_search(child, goal, depth_limit - 1):
+                return True
+    return False
+
+def iterative_deepening_search(root, goal):
+    depth_limit = 0
+    while True:
+        if depth_limited_search(root, goal, depth_limit):
+            return True, depth_limit
+        depth_limit += 1
