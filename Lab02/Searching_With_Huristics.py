@@ -91,3 +91,32 @@ class Graph:
                         if m in closed_list:
                             closed_list.remove(m)
                             open_list.add(m)
+
+            # remove n from the open_list, and add it to closed_list
+            # because all of his neighbors were inspected
+            open_list.remove(n)
+            closed_list.add(n)
+
+        print('Path does not exist!')
+        return None
+
+adjacency_list = {
+    'A': [('B', 1), ('C', 3), ('D', 7)],
+    'B': [('D', 5)],
+    'C': [('D', 12)]
+}
+graph1 = Graph(adjacency_list)
+graph1.a_star_algorithm('A', 'D')
+
+def aStarAlgo(start_node, stop_node):
+
+        open_set = set(start_node)
+        closed_set = set()
+        g = {} #store distance from starting node
+        parents = {}# parents contains an adjacency map of all nodes
+
+        #ditance of starting node from itself is zero
+        g[start_node] = 0
+        #start_node is root node i.e it has no parent nodes
+        #so start_node is set to its own parent node
+        parents[start_node] = start_node
