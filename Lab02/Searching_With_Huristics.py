@@ -155,3 +155,32 @@ def aStarAlgo(start_node, stop_node):
                             if m in closed_set:
                                 closed_set.remove(m)
                                 open_set.add(m)
+
+            if n == None:
+                print('Path does not exist!')
+                return None
+
+            # if the current node is the stop_node
+            # then we begin reconstructin the path from it to the start_node
+            if n == stop_node:
+                path = []
+
+                while parents[n] != n:
+                    path.append(n)
+                    n = parents[n]
+
+                path.append(start_node)
+
+                path.reverse()
+
+                print('Path found: {}'.format(path))
+                return path
+
+
+            # remove n from the open_list, and add it to closed_list
+            # because all of his neighbors were inspected
+            open_set.remove(n)
+            closed_set.add(n)
+
+        print('Path does not exist!')
+        return None
