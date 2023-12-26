@@ -1,3 +1,4 @@
+
 from collections import deque
 
 class Graph:
@@ -25,7 +26,7 @@ class Graph:
 
         return H[n]
 
-   def a_star_algorithm(self, start_node, stop_node):
+    def a_star_algorithm(self, start_node, stop_node):
         # open_list is a list of nodes which have been visited, but who's neighbors
         # haven't all been inspected, starts off with the start node
         # closed_list is a list of nodes which have been visited
@@ -121,6 +122,7 @@ def aStarAlgo(start_node, stop_node):
         #so start_node is set to its own parent node
         parents[start_node] = start_node
 
+
         while len(open_set) > 0:
             n = None
 
@@ -184,3 +186,36 @@ def aStarAlgo(start_node, stop_node):
 
         print('Path does not exist!')
         return None
+
+#define fuction to return neighbor and its distance
+#from the passed node
+def get_neighbors(v):
+    if v in Graph_nodes:
+        return Graph_nodes[v]
+    else:
+        return None
+#for simplicity we ll consider heuristic distances given
+#and this function returns heuristic distance for all nodes
+def heuristic(n):
+        H_dist = {
+            'A': 11,
+            'B': 6,
+            'C': 99,
+            'D': 1,
+            'E': 7,
+            'G': 0,
+
+        }
+
+        return H_dist[n]
+
+#Describe your graph here
+Graph_nodes = {
+    'A': [('B', 2), ('E', 3)],
+    'B': [('C', 1),('G', 9)],
+    'C': None,
+    'E': [('D', 6)],
+    'D': [('G', 1)],
+
+}
+aStarAlgo('A', 'G')
