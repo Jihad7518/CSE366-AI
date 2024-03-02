@@ -98,3 +98,41 @@ class Simulation:
                   print("Reached the destination!")
                   break
 
+
+class AStarPathfinder:
+    def __init__(self, environment):
+        self.environment = environment
+
+    def heuristic(self, pos1, pos2):
+        # Manhattan distance heuristic
+        return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
+
+    def find_path(self, start, end):
+        open_set = []
+        closed_set = set()
+        heapq.heappush(open_set, (0, start))
+        g_score = {start: 0}
+        f_score = {start: self.heuristic(start, end)}
+
+        while open_set:
+            _, current = heapq.heappop(open_set)
+            if current == end:
+                path = []
+                while current in g_score:
+                    path.append(current)
+                    current = g_score[current]
+                path.reverse()
+                return path
+
+            closed_set.add(current)
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                neighbor = (current[0] + dx, current[1] + dy)
+                if not self.environment.is_valid_position(neighbor) or neighbor in closed_set:
+                    continue
+                tentative_g_score = g_score[current] + 1  # Assuming uniform cost
+                if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                    g_score[neighbor] = tentative_g_score
+                    f_score[neighbor] = tentative_g_score + self.heuristic(neighbor, end)
+                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
+
+        return []  # No valid path found
