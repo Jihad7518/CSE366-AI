@@ -1,4 +1,5 @@
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -32,6 +33,8 @@ class Environment:
 
     def generate_grid(self):
         return self.grid
+
+
 class Robot:
     def __init__(self, environment, start_position):
         self.environment = environment
@@ -61,6 +64,7 @@ class Robot:
              else:
                 # No valid path found, stay in the same position
                 return False
+
     def is_valid_move(self, position):
         x, y = position
         return self.environment.is_valid_position(position) and self.environment.grid[x, y] != 1
@@ -81,6 +85,7 @@ class Robot:
     def calculate_distance(self, pos1, pos2):
         return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
+
 class Simulation:
     def __init__(self, environment, robot):
         self.environment = environment
@@ -97,6 +102,7 @@ class Simulation:
                 if self.robot.position == self.environment.end_position:
                   print("Reached the destination!")
                   break
+
 
 
 class AStarPathfinder:
@@ -160,6 +166,7 @@ new_sim.simulate_movement([(1, 0), (1, 0), (1, 0), (0, 1), (0, 1),
 
 # Create a new visualization for the new environment and robot
 new_vis = Visualization(new_env, new_robot)
+
 # Plot the grid for the new environment
 new_vis.plot_grid()
 
@@ -175,6 +182,7 @@ start_pos = env.start_position
 end_pos = env.end_position
 optimal_path = pathfinder.find_path(start_pos, end_pos)
 print("Optimal Path:", optimal_path)
+
 
 
 class Visualization:
@@ -205,3 +213,17 @@ class Visualization:
         self.ax.set_yticks(np.arange(-0.5, self.environment.n, 1), minor=True)
         self.ax.grid(which='minor', color='gray', linestyle='-', linewidth=1)
         self.ax.legend()  # Show legend for valid path
+
+    def update_visualization(self, frame):
+        self.plot_grid()
+        self.ax.set_title(f"Robot's Energy: {self.robot.energy}")
+        return [self.im]
+
+    def animate_simulation(self, directions):
+        anim = FuncAnimation(self.fig, self.update_visualization, frames=len(directions), blit=True)
+        plt.show()
+
+
+
+vis = Visualization(env, robot)
+vis.plot_grid()
