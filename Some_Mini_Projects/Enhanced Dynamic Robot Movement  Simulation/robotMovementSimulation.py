@@ -61,3 +61,23 @@ class Robot:
              else:
                 # No valid path found, stay in the same position
                 return False
+    def is_valid_move(self, position):
+        x, y = position
+        return self.environment.is_valid_position(position) and self.environment.grid[x, y] != 1
+
+    def update_energy(self, energy_consumption):
+        self.energy -= energy_consumption
+
+
+    def optimize_task(self, tasks):
+        # Example: Sort tasks based on distance from the current position
+        tasks.sort(key=lambda task: np.linalg.norm(np.array(task) - np.array(self.position)))
+        return tasks
+
+    def detect_collision(self, new_position):
+      # Check if the new position is an obstacle
+      return self.environment.grid[new_position[0], new_position[1]] == 1
+
+    def calculate_distance(self, pos1, pos2):
+        return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
+
