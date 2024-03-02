@@ -175,3 +175,33 @@ start_pos = env.start_position
 end_pos = env.end_position
 optimal_path = pathfinder.find_path(start_pos, end_pos)
 print("Optimal Path:", optimal_path)
+
+
+class Visualization:
+    def __init__(self, environment, robot):
+        self.environment = environment
+        self.robot = robot
+        self.fig, self.ax = plt.subplots()
+        self.im = None
+
+    def plot_grid(self):
+        self.ax.clear()
+        grid = self.environment.generate_grid()
+        self.im = self.ax.imshow(grid, cmap='gray', origin='lower')
+
+        for obstacle in self.environment.obstacles:
+            self.ax.plot(obstacle[1], obstacle[0], 'ro')  # Plotting obstacles
+
+        if self.environment.start_position:
+            self.ax.plot(self.environment.start_position[1], self.environment.start_position[0], 'go')  # Plotting start position
+
+        if self.environment.end_position:
+            self.ax.plot(self.environment.end_position[1], self.environment.end_position[0], 'bo')  # Plotting end position
+
+        valid_x, valid_y = zip(*self.robot.valid_moves)
+        self.ax.plot(valid_x, valid_y, 'bo-', label='Valid Path')  # Use markers instead of a line
+
+        self.ax.set_xticks(np.arange(-0.5, self.environment.m, 1), minor=True)
+        self.ax.set_yticks(np.arange(-0.5, self.environment.n, 1), minor=True)
+        self.ax.grid(which='minor', color='gray', linestyle='-', linewidth=1)
+        self.ax.legend()  # Show legend for valid path
