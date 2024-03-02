@@ -160,3 +160,18 @@ new_sim.simulate_movement([(1, 0), (1, 0), (1, 0), (0, 1), (0, 1),
 
 # Create a new visualization for the new environment and robot
 new_vis = Visualization(new_env, new_robot)
+# Plot the grid for the new environment
+new_vis.plot_grid()
+
+# Show the animated simulation for the new directions
+new_vis.animate_simulation([(1, 0), (1, 0), (1, 0), (0, 1), (0, 1),
+                             (0, 1), (1, 0), (1, 0), (1, 0), (1, 0),
+                             (0, 1), (0, 1), (1, 0), (1, 0), (1, 0),
+                             (0, 1), (0, 1), (0, 1), (1, 0), (1, 0)])
+
+# Example usage:
+pathfinder = AStarPathfinder(env)
+start_pos = env.start_position
+end_pos = env.end_position
+optimal_path = pathfinder.find_path(start_pos, end_pos)
+print("Optimal Path:", optimal_path)
