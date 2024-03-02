@@ -81,3 +81,20 @@ class Robot:
     def calculate_distance(self, pos1, pos2):
         return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
+class Simulation:
+    def __init__(self, environment, robot):
+        self.environment = environment
+        self.robot = robot
+        self.valid_moves = []
+
+    def simulate_movement(self, directions):
+        for direction in directions:
+            if not self.robot.move(direction):
+                print("Invalid move or obstacle encountered!")
+                break
+            else:
+                self.valid_moves.append(self.robot.position)  # Append the current position
+                if self.robot.position == self.environment.end_position:
+                  print("Reached the destination!")
+                  break
+
