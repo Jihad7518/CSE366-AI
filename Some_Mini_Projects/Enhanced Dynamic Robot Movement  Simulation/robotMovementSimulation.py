@@ -136,3 +136,27 @@ class AStarPathfinder:
                     heapq.heappush(open_set, (f_score[neighbor], neighbor))
 
         return []  # No valid path found
+
+# Create a new environment with different dimensions
+new_env = Environment(8, 10)
+new_env.add_obstacle((1, 2))
+new_env.add_obstacle((2, 3))
+new_env.add_obstacle((3, 4))
+new_env.add_obstacle((4, 5))
+new_env.set_start_position((0, 0))
+new_env.set_end_position((7, 9))
+
+# Create a new robot for the new environment
+new_robot = Robot(new_env, new_env.start_position)
+
+# Create a new simulation for the new environment and robot
+new_sim = Simulation(new_env, new_robot)
+
+# Simulate a different movement pattern
+new_sim.simulate_movement([(1, 0), (1, 0), (1, 0), (0, 1), (0, 1),
+                            (0, 1), (1, 0), (1, 0), (1, 0), (1, 0),
+                            (0, 1), (0, 1), (1, 0), (1, 0), (1, 0),
+                            (0, 1), (0, 1), (0, 1), (1, 0), (1, 0)])
+
+# Create a new visualization for the new environment and robot
+new_vis = Visualization(new_env, new_robot)
