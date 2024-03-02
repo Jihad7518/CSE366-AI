@@ -32,3 +32,32 @@ class Environment:
 
     def generate_grid(self):
         return self.grid
+class Robot:
+    def __init__(self, environment, start_position):
+        self.environment = environment
+        self.position = start_position
+        self.energy = 100
+        self.valid_moves = []  # Initialize an empty list for valid moves
+
+    def move(self, direction):
+        x, y = self.position
+        dx, dy = direction
+        new_x, new_y = x + dx, y + dy
+
+        if self.is_valid_move((new_x, new_y)):
+            self.position = (new_x, new_y)
+            self.energy -= 1  # Decrease energy by 1 for each movement
+            self.valid_moves.append((new_x, new_y))  # Store valid moves
+            return True
+        else:
+             # Obstacle encountered, recalculate path using A* and choose an alternative move
+             optimal_path = pathfinder.find_path(self.position, self.environment.end_position)
+             if optimal_path:
+                next_position = optimal_path[0]  # Next position after recalculating path
+                self.position = next_position
+                self.energy -= 1
+                self.valid_moves.append(next_position)
+                return True
+             else:
+                # No valid path found, stay in the same position
+                return False
